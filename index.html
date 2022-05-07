@@ -33,9 +33,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&family=Frank+Ruhl+Libre:wght@500&display=swap&family=Roboto+Slab:wght@700&family=Source+Serif+4:wght@200&display=swap"
     rel="stylesheet">
-  <link rel="icon" href="assets/images"
-
-</head>
+  <link rel="icon" href="assets/images" </head>
 
 <body>
 
@@ -86,48 +84,110 @@
     </div>
   </div>
 
-  <div id="announcements">
 
-    <div class="row">
-      <div class="col ann-section">
-        <h1 class="text-center">ANNOUNCEMENTS</h1>
-        <div class="list-group ann-list">
-          <a href="https://www.instagram.com/p/CYA6Z61q2wS/" class="list-group-item">
-            <div class="d-flex h-10 justify-content-between">
-              <p>Rewind is coming up, stay tuned!</p><i class="fas fa-angle-right"></i>
-            </div>
-          </a>
-          <a href="https://www.instagram.com/p/CX0jQ41oAYE/" class="list-group-item">
-            <div class="d-flex h-10 justify-content-between">
-              <p>Winners for Quizmas have been announced, check 'em out!</p><i class="fas fa-angle-right"></i>
-            </div>
-          </a>
-          <a href="https://www.instagram.com/p/CX8iHNYl-zS/" class="list-group-item">
-            <div class="d-flex h-10 justify-content-between">
-              <p>Tathva events starting soon in NITC, don't miss Club Enquire!</p><i class="fas fa-angle-right"></i>
-            </div>
-          </a>
-          <a href="https://www.instagram.com/enquire_nitc/" class="list-group-item">
-            <div class="d-flex h-10 justify-content-between">
-              <p>Follow our Instagram page for some exclusive quizzes!</p><i class="fas fa-angle-right"></i>
-            </div>
-          </a>
-          <a href="https://discord.gg/XPNRuTwrJZ" class="list-group-item">
-            <div class="d-flex h-10 justify-content-between">
-              <p>Join our Discord Server to take part in our weekly quizzes!</p><i class="fas fa-angle-right"></i>
-            </div>
-          </a>
-          <a href="https://www.facebook.com/enquirequizclub" class="list-group-item">
-            <div class="d-flex h-10 justify-content-between">
-              <p>Checkout our Facebook page!</p><i class="fas fa-angle-right"></i>
-            </div>
-          </a>
-        </div>
+  <div class="row cage">
+    <div class="col ann-section">
+      <h1 class="text-center">ANNOUNCEMENTS</h1>
+      <div class="list-group ann-list">
+        <a href="https://www.instagram.com/p/CYA6Z61q2wS/" class="list-group-item">
+          <div class="d-flex h-10 justify-content-between">
+            <p>Rewind is coming up, stay tuned!</p><i class="fas fa-angle-right"></i>
+          </div>
+        </a>
+        <a href="https://www.instagram.com/p/CX0jQ41oAYE/" class="list-group-item">
+          <div class="d-flex h-10 justify-content-between">
+            <p>Winners for Quizmas have been announced, check 'em out!</p><i class="fas fa-angle-right"></i>
+          </div>
+        </a>
+        <a href="https://www.instagram.com/p/CX8iHNYl-zS/" class="list-group-item">
+          <div class="d-flex h-10 justify-content-between">
+            <p>Tathva events starting soon in NITC, don't miss Club Enquire!</p><i class="fas fa-angle-right"></i>
+          </div>
+        </a>
+        <a href="https://www.instagram.com/enquire_nitc/" class="list-group-item">
+          <div class="d-flex h-10 justify-content-between">
+            <p>Follow our Instagram page for some exclusive quizzes!</p><i class="fas fa-angle-right"></i>
+          </div>
+        </a>
+        <a href="https://discord.gg/XPNRuTwrJZ" class="list-group-item">
+          <div class="d-flex h-10 justify-content-between">
+            <p>Join our Discord Server to take part in our weekly quizzes!</p><i class="fas fa-angle-right"></i>
+          </div>
+        </a>
+        <a href="https://www.facebook.com/enquirequizclub" class="list-group-item">
+          <div class="d-flex h-10 justify-content-between">
+            <p>Checkout our Facebook page!</p><i class="fas fa-angle-right"></i>
+          </div>
+        </a>
       </div>
-      <div class="col">
+    </div>
+    <div class="col tri-section">
+      <h1 class="text-center">TEST YOUR TRIVIA</h1>
+      <h5 class="text-center" id="question">Looking for the question....</h5>
+      <div class="list-group answers" id="ans">
+        <button type="button" class="list-group-item" id="answer0" onclick="input = this.innerHTML; takeinput();">There
+          is
+          no answer here</button>
+        <button type="button" class="list-group-item" id="answer1" onclick="input = this.innerHTML; takeinput();">Where
+          are the answers?</button>
+        <button type="button" class="list-group-item" id="answer2" onclick="input = this.innerHTML; takeinput();">I am
+          looking for them</button>
+        <button type="button" class="list-group-item" id="answer3" onclick="input = this.innerHTML; takeinput();">This
+          is
+          certainly not an answer</button>
       </div>
     </div>
   </div>
+  <script>
+    let que;
+    let all_answer;
+    let correct_answer;
+    let input;
+    const api_url = "https://opentdb.com/api.php?amount=1&type=multiple";
+    async function catchquestion() {
+      console.log("Getting Question...");
+      const response = await fetch(api_url);
+      const data = await response.json();
+      que = data.results[0].question;
+      correct_answer = data.results[0].correct_answer;
+      data.results[0].incorrect_answers.push(correct_answer);
+      all_answer = data.results[0].incorrect_answers;
+      all_answer.sort();
+      document.getElementById("ans").innerHTML = '<button type="button" class="list-group-item" id="answer0" onclick="input = this.innerHTML; takeinput();"></button><button type="button" class="list-group-item" id="answer1" onclick="input = this.innerHTML; takeinput();"></button><button type="button" class="list-group-item" id="answer2" onclick="input = this.innerHTML; takeinput();"></button><button type="button" class="list-group-item" id="answer3" onclick="input = this.innerHTML; takeinput();"></button>';
+      document.getElementById("question").innerHTML = que;
+      document.getElementById("answer0").innerHTML = all_answer[0];
+      document.getElementById("answer1").innerHTML = all_answer[1];
+      document.getElementById("answer2").innerHTML = all_answer[2];
+      document.getElementById("answer3").innerHTML = all_answer[3];
+
+    }
+    function cor() {
+      return correct_answer;
+    }
+    catchquestion()
+      .then(response => {
+        console.log('Questions got');
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    function takeinput() {
+      console.log(input);
+      if (input == correct_answer) {
+
+        document.getElementById("ans").style.backgroundColor = '#9bfc55';
+        document.getElementById("ans").innerHTML = '<p>That was correct!<p>';
+        document.getElementById("ans").innerHTML += '<h6 onclick="catchquestion()">Try again?</h6>';
+      }
+      else {
+        document.getElementById("ans").style.backgroundColor = '#fc7455';
+        document.getElementById("ans").innerHTML = '<p>That was wrong!<p>';
+        document.getElementById("ans").innerHTML += correct_answer + " was the correct answer";
+        document.getElementById("ans").innerHTML += '<h6 onclick="catchquestion()">Try again?</h6>';
+
+      }
+    }
+  </script>
 
   <div class="container about">
     <h1>ABOUT US</h1>
@@ -149,7 +209,7 @@
 
 
   <div class="footer" id="footer">
-      <h3>ENQUIRE QUIZ CLUB</h3>
+    <h3>ENQUIRE QUIZ CLUB</h3>
     <div class="container row">
 
 
@@ -194,17 +254,19 @@
         </div>
         <div class="col-sm-2">
           <li class="icons"><i><a href="https://www.clubhouse.com/club/enquire-nitc"><span class="clubhouse">
-                  <img src="assets/images/clubhouse3.png" onmouseover="hover(this);" onmouseout="unhover(this);"> </a></li></i>
+                  <img src="assets/images/clubhouse3.png" onmouseover="hover(this);" onmouseout="unhover(this);"> </a>
+          </li></i>
           </span>
         </div>
       </ul>
-      
+
 
       <!-- Mail,Location and Suggestion box -->
 
       <div class="col-lg-5 container">
         <ul class="secondlist">
-          <li class="mailandloc" onclick='copyEmail()'> <i class="emailicon fas fa-envelope fa-2x"></i> <span>enquireclub@nitc.ac.in</span>
+          <li class="mailandloc" onclick='copyEmail()'> <i class="emailicon fas fa-envelope fa-2x"></i>
+            <span>enquireclub@nitc.ac.in</span>
           </li>
 
           <li class="mailandloc" data-toggle="tooltip" data-placement="bottom"
@@ -263,8 +325,8 @@
   </script>
   <script src="index.js">
     loadHTML("template", "carousel.html");
-    console.log("hi");
   </script>
+  <script src="trivia.js">  </script>
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
