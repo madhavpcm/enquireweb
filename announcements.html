@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Announcements</title>
+        <meta charset="utf-8">
+        <meta name="viewport"; content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://kit.fontawesome.com/b30c65c99f.js" crossorigin="anonymous"></script>
+        <style>
+            body{
+                background-color: #212121;
+            }
+           
+            h1{
+                color: #ff4532;
+            }
+            h5{
+                color: #bfbfbf;
+                font-weight: bold;
+            }
+            .ann-section>.list-group{
+                position: relative;
+                left: 12.5%;
+                top: 5%;
+                width: 75%;
+                height: 200px;
+                overflow-y: scroll;
+                border: 0.1rem solid white;
+            }
+            .ann-list>a{
+                color: #bfbfbf;
+                height: 40px;
+            }
+            .ann-list>a:nth-child(2n+1){
+                background-color: #212121;
+            }
+            .ann-list>a:nth-child(2n+2){
+                background-color: #18191a;
+            }
+            .ann-list>a:hover{
+                background-color: #bfbfbf;
+                color: #ff4532;
+                transition: 750ms;
+            }
+            .tri-section>.answers{
+                position: relative;
+                left: 12.5%;
+                top: 4%;
+                width: 75%;
+                height: 168px;
+                border: 0.1rem solid white;
+                color: #18191a;
+                text-align: center;
+            }
+            .answers>h6{
+                color: white;
+                font-size: 25px;
+                cursor: pointer;
+            }
+            .answers>h6:hover{
+                color: #ff4532;
+                transition: 750ms;
+            }
+            .answers>p{
+                font-size: 20px;
+                color: #18191a;
+            }
+            .answers>button{
+                color: #bfbfbf;
+                height: 42px;
+            }
+            .answers>button:nth-child(2n+1){
+                background-color: #212121;
+            }
+            .answers>button:nth-child(2n+2){
+                background-color: #18191a;
+            }
+            .answers>button:hover{
+                background-color: #bfbfbf;
+                color:#ff4532;
+                transition: 750ms;
+            }
+            
+            
+            
+            
+        </style>
+    </head>
+    <body>
+        <div class="row">
+            <div class="col ann-section">
+                <h1 class="text-center">ANNOUNCEMENTS</h1>
+                <div class="list-group ann-list">
+                    <a href="https://www.instagram.com/p/CYA6Z61q2wS/" class="list-group-item"><div class="d-flex h-10 justify-content-between">
+                        <p>Rewind is coming up, stay tuned!</p><i class="fas fa-angle-right"></i>
+                    </div></a>
+                    <a href="https://www.instagram.com/p/CX0jQ41oAYE/" class="list-group-item"><div class="d-flex h-10 justify-content-between">
+                        <p>Winners for Quizmas have been announced, check 'em out!</p><i class="fas fa-angle-right"></i>
+                    </div></a>
+                    <a href="https://www.instagram.com/p/CX8iHNYl-zS/" class="list-group-item"><div class="d-flex h-10 justify-content-between">
+                        <p>Tathva events starting soon in NITC, don't miss Club Enquire!</p><i class="fas fa-angle-right"></i>
+                    </div></a>
+                    <a href="https://www.instagram.com/enquire_nitc/" class="list-group-item"><div class="d-flex h-10 justify-content-between">
+                        <p>Follow our Instagram page for some exclusive quizzes!</p><i class="fas fa-angle-right"></i>
+                    </div></a>
+                    <a href="https://discord.gg/XPNRuTwrJZ" class="list-group-item"><div class="d-flex h-10 justify-content-between">
+                        <p>Join our Discord Server to take part in our weekly quizzes!</p><i class="fas fa-angle-right"></i>
+                    </div></a>
+                    <a href="https://www.facebook.com/enquirequizclub" class="list-group-item"><div class="d-flex h-10 justify-content-between">
+                        <p>Checkout our Facebook page!</p><i class="fas fa-angle-right"></i>
+                    </div></a>
+                </div>
+            </div>
+            <div class="col tri-section">
+                <h1 class="text-center">TEST YOUR TRIVIA</h1>
+                <h5 class="text-center" id="question">Looking for the question....</h5>
+                <div class="list-group answers" id="ans">
+                    <button type="button" class="list-group-item" id="answer0" onclick="input = this.innerHTML; takeinput();">There is no answer here</button>
+                    <button type="button" class="list-group-item" id="answer1" onclick="input = this.innerHTML; takeinput();">Where are the answers?</button>
+                    <button type="button" class="list-group-item" id="answer2" onclick="input = this.innerHTML; takeinput();">I am looking for them</button>
+                    <button type="button" class="list-group-item" id="answer3" onclick="input = this.innerHTML; takeinput();">This is certainly not an answer</button>
+                </div> 
+            </div>
+        </div>
+        <script>
+            let que;
+            let all_answer;
+            let correct_answer;
+            let input;
+            const api_url="https://opentdb.com/api.php?amount=1&type=multiple";
+            async function catchquestion() {
+                console.log("Getting Question...");
+                const response = await fetch(api_url);
+                const data = await response.json();
+                que = data.results[0].question;
+                correct_answer = data.results[0].correct_answer;
+                data.results[0].incorrect_answers.push(correct_answer);
+                all_answer = data.results[0].incorrect_answers;
+                all_answer.sort();
+                document.getElementById("ans").innerHTML = '<button type="button" class="list-group-item" id="answer0" onclick="input = this.innerHTML; takeinput();"></button><button type="button" class="list-group-item" id="answer1" onclick="input = this.innerHTML; takeinput();"></button><button type="button" class="list-group-item" id="answer2" onclick="input = this.innerHTML; takeinput();"></button><button type="button" class="list-group-item" id="answer3" onclick="input = this.innerHTML; takeinput();"></button>';
+                document.getElementById("question").innerHTML = que;
+                document.getElementById("answer0").innerHTML = all_answer[0];
+                document.getElementById("answer1").innerHTML = all_answer[1];
+                document.getElementById("answer2").innerHTML = all_answer[2];
+                document.getElementById("answer3").innerHTML = all_answer[3];        
+                    
+            }
+            function cor() {
+                return correct_answer;
+            }
+            catchquestion()
+                .then(response => {
+                    console.log('Questions got');
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            function takeinput() {
+                console.log(input);
+                if(input == correct_answer){
+
+                    document.getElementById("ans").style.backgroundColor = '#9bfc55';
+                    document.getElementById("ans").innerHTML = '<p>That was correct!<p>';
+                    document.getElementById("ans").innerHTML += '<h6 onclick="catchquestion()">Try again?</h6>';
+                }       
+                else{
+                    document.getElementById("ans").style.backgroundColor = '#fc7455';
+                    document.getElementById("ans").innerHTML = '<p>That was wrong!<p>';
+                    document.getElementById("ans").innerHTML += correct_answer + " was the correct answer";
+                    document.getElementById("ans").innerHTML += '<h6 onclick="catchquestion()">Try again?</h6>';
+                    
+                }
+            } 
+        </script>
+
+    </body>
+</html>
