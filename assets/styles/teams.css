@@ -8,10 +8,10 @@ font-family: 'Merriweather';
     max-width: 1000px;
     padding: 0px;
     margin: 0px auto;
-    margin-top : 7%;
+    margin-top : 5%;
   }
 .list-team-members li {
-    padding: 15px;
+    padding: 10px;
     text-align: center;
     list-style-type: none;
     display: inline-block;
@@ -28,7 +28,7 @@ font-family: 'Merriweather';
   }
 
   .list-team-members li a:hover {
-  transform: scale(1.01, 1.01);
+  transform: scale(1.09, 1.09);
   border:2px solid #ff4532;
   color:#ff4532;
   border-radius: 5%;
@@ -63,10 +63,18 @@ font-family: 'Merriweather';
   .list-team-members li .member-title {
     display: block;
     margin-bottom: 10px;
+    font-size: 1.2rem;
+  }
+  .list-team-members li .member-desig{
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 1.4rem;
+    
   }
 
   .team_members:hover .member{
-    filter: blur(3px);
+    filter: blur(1px);
     transition-duration: .5s;
   }
   .team_members .member:hover{
